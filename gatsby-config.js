@@ -7,8 +7,10 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://www.yourdomain.tld',
+    siteUrl: 'https://ofekperes.github.io/controls-visualization/',
     title: 'Controls Visualizer',
   },
   plugins: ['gatsby-plugin-postcss'],
+  pathPrefix: "/controls-visualization",
 };
+

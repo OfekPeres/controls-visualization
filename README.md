@@ -1,39 +1,26 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
+
 
 ## 🚀 Quick start
 
-1.  **Create a Gatsby site.**
-
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
-
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+1. Clone the Repository and "cd" into it
+2. run npm install to install all of the required packages to develop a react/gatsby site. These pacakges are listed in the package.json file
+```shell
+npm install
+```
 
 2.  **Start developing.**
-
-    Navigate into your new site’s directory and start it up.
-
+    Start the development server with live reload by running:
     ```shell
-    cd my-gatsby-site/
     npm run develop
     ```
 
 3.  **Open the code and start customizing!**
 
-    Your site is now running at http://localhost:8000!
+    Your dev server is now running at http://localhost:8000!
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+    Edit any `.js` file and see them updated live in your browser
 
-4.  **Learn more**
+4.  **Learn more - Gatsby**
 
     - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
@@ -47,8 +34,10 @@
 
     - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-## 🚀 Quick start (Gatsby Cloud)
+5.  **Learn more - React**
+https://reactjs.org/docs/getting-started.html
+6.  **Learn more - p5**
+https://p5js.org/
 
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
 
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
+# See the live site [here](https://ofekperes.github.io/controls-visualization/)
