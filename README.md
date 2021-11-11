@@ -1,7 +1,10 @@
 
 
 ## 🚀 Quick start
-*Important note: make sure you have node and npm installed. 16.2.0 is the version that works for me and I use nvm (node version manager)
+*Important note: make sure you have node and npm installed. 16.2.0 is the version that works for me and I use nvm (node version manager). If using nvm type command:
+``` shell
+nvm use 16.2.0
+```
 1. Clone the Repository and "cd" into it
 2. run npm install to install all of the required packages to develop a react/gatsby site. These pacakges are listed in the package.json file
 ```shell
