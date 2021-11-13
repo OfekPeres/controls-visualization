@@ -7,34 +7,44 @@ function SquareSketch() {
     let car;
 
     useEffect(() => {
-        function sketch(p5_inst) {
+        function sketch(p5) {
             const W = 600
             const H = 600
-
-            car = new Car(W / 2, H / 2, 0, p5_inst)
+            let cx = 0
+            let cy = 0 
+            let r = 50
+            car = new Car(W / 2, H / 2, 3.14/2, p5)
 
             // SETUP
             function setup() {
-                p5_inst.createCanvas(W, H)
+                p5.createCanvas(W, H)
             }
 
 
             function draw() {
-                p5_inst.background(100)
+                p5.background(100)
+                p5.circle(cx,cy,r)
+                car.track(cx,cy,r)
                 car.run()
             }
 
 
             function keyPressed() {
-                if (p5_inst.keyCode === p5_inst.UP_ARROW) car.speed += 2
-                if (p5_inst.keyCode === p5_inst.DOWN_ARROW) car.speed -= 2
-                if (p5_inst.keyCode === p5_inst.LEFT_ARROW) car.phi -= 0.5
-                if (p5_inst.keyCode === p5_inst.RIGHT_ARROW) car.phi += 0.5
+                if (p5.keyCode === p5.UP_ARROW) car.speed += 2
+                if (p5.keyCode === p5.DOWN_ARROW) car.speed -= 2
+                if (p5.keyCode === p5.LEFT_ARROW) car.phi -= 0.5
+                if (p5.keyCode === p5.RIGHT_ARROW) car.phi += 0.5
+            }
+            function mousePressed()
+            {
+                cx = p5.mouseX
+                cy = p5.mouseY
             }
 
-            p5_inst.setup = setup
-            p5_inst.draw = draw
-            p5_inst.keyPressed = keyPressed
+            p5.setup = setup
+            p5.draw = draw
+            p5.keyPressed = keyPressed
+            p5.mousePressed = mousePressed
 
         }
         const my_p5 = new p5(sketch, canvas_ref.current)
