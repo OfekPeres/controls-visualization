@@ -110,6 +110,7 @@ export default function RRTVisualization() {
   Send the user defined map to the backend to solve it!
   --------------------------------------------------------------------------- */
   async function getRRTMap() {
+    if (isLoading) return;
     setIsLoading(true);
     const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
     console.log(url);
@@ -221,8 +222,9 @@ export default function RRTVisualization() {
       <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
       <div className="flex justify-center items-center space-x-3">
         <button
-          className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400"
+          className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
           onClick={() => getRRTMap()}
+          disabled={isLoading}
         >
           Generate the RRT Map!
         </button>
