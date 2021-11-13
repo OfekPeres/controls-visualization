@@ -1,46 +1,40 @@
 class Car {
-
-    // Declare instance variables 
+    // Instance variables 
     speed = 0;                      // Car scalar speed
     phi = 0;                        // Wheel angle
     phi_dot = 0;                    // Rate of change of wheel angle
 
-    max_steer = 0.5;     // Wheel rotation limit
-    max_speed = 4;       // Arbitrary choice for max car speed
+    max_steer = 0.5;                // Wheel rotation limit
+    max_speed = 2;                  // Arbitrary choice for max car speed
 
-    theta_dot = 0;           // Rate of change of orientation
+    theta_dot = 0;                  // Rate of change of orientation
 
-     car_len = 50;             // Length of car
-     car_wid = this.car_len / 2.5;  // Width of car
-     tyre_wid = this.car_wid / 7;
-     tyre_len = this.car_len / 6.6;
-
+    // Car dimensions
+    car_len = 50;
+    car_wid = this.car_len / 2.5;
+    tyre_wid = this.car_wid / 7;
+    tyre_len = this.car_len / 6.6;
 
     constructor(x_, y_, theta_, p5) {
-        this.loc = p5.createVector(x_, y_) // Location <x, y>
-        this.vel = p5.createVector(1, 1)   // Velocity <x, y> 
-        this.theta = theta_
-        this.p5 = p5
+        this.loc = p5.createVector(x_, y_) // Location vector 
+        this.vel = p5.createVector(1, 1)   // Velocity vector 
+        this.theta = theta_                // Starting angle (0 = Left, pi/2 = Up, pi = Right, 3pi/2 = Down) 
+        this.p5 = p5                       // Import p5 instance
     }
 
-
-
     run() {
-
         this.display();
         this.move();
     }
 
     display() {
+        this.p5.translate(this.loc.x, this.loc.y); // Move to ref frame of the car (car center is now <0, 0>)
+        this.p5.rotate(this.theta);                // Rotate reference frame to match car orientation
 
-        this.p5.translate(this.loc.x, this.loc.y);   // Move to ref frame of the car (car center is now <0, 0>)
-        this.p5.rotate(this.theta);             // Rotate reference frame to match car orientation
-
-        this.draw_car_body();           // draw main car body + back wheels 
-        this.draw_front_wheels()
+        this.draw_car_body();                      // draw main car body + back wheels 
+        this.draw_front_wheels()                   // draw fron wheels angled by (phi)
 
     }
-
 
     draw_car_body() {
         // Car body
@@ -61,8 +55,6 @@ class Car {
         this.p5.rect(back_x, btm_back_y, this.tyre_len, this.tyre_wid, 5);
     }
 
-
-
     draw_front_wheels() {
         this.p5.noStroke();
         this.p5.fill(0);
@@ -71,13 +63,14 @@ class Car {
         let top_front_center_y = -this.car_wid / 2 + this.tyre_wid;
         let btm_front_center_y = this.car_wid / 2 - this.tyre_wid;
 
+        // Front Left wheel
         this.p5.push();
         this.p5.translate(front_center_x, top_front_center_y);
         this.p5.rotate(this.phi);
         this.p5.rect(-this.tyre_len / 2, -this.tyre_wid / 2, this.tyre_len, this.tyre_wid, 5);
         this.p5.pop();
 
-
+        // Fron right wheel
         this.p5.push();
         this.p5.translate(front_center_x, btm_front_center_y);
         this.p5.rotate(this.phi);
@@ -85,12 +78,14 @@ class Car {
         this.p5.pop();
     }
 
-
     move() {
+        // Checks we within driving constraints 
         if (this.speed > this.max_speed) this.speed = this.max_speed
+        if (this.speed < -this.max_speed) this.speed = -this.max_speed
         if (this.phi > this.max_steer) this.phi = this.max_steer
         if (this.phi < -this.max_steer) this.phi = -this.max_steer
 
+        // Update velocity, theta and location
         this.vel.x = this.speed * Math.cos(this.theta)
         this.vel.y = this.speed * Math.sin(this.theta)
         this.theta_dot = this.speed * Math.tan(this.phi) / this.car_len
@@ -98,7 +93,6 @@ class Car {
         this.loc.add(this.vel)
         this.dont_crash()
     }
-
 
     // Width and height (600) are hard-coded magic numbers atm. 
     dont_crash() {
@@ -122,8 +116,6 @@ class Car {
             this.speed = 0;
         }
     }
-
-
 }
 
 export default Car
