@@ -87,12 +87,13 @@ export default function RRTVisualization() {
   const [sketchState, setSketchState] = useState(initialSketchState);
   const [menuValue, setMenuValue] = useState('circle');
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(true);
 
   const debouncedSketchState = useDebounce(sketchState, 250);
   const ref = useRef();
 
   /*----------------------------------------------------------------------------
-  GET INITIAL RRT DUMMY MAP WHEN THE PAGE LOADS 
+  GET INITIAL RRT Example MAP WHEN THE PAGE LOADS 
   --------------------------------------------------------------------------- */
   useEffect(() => {
     async function fetchData() {
@@ -113,9 +114,10 @@ export default function RRTVisualization() {
     if (isLoading) return;
     setIsLoading(true);
     const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
-    console.log(url);
+
     const payload = await axios.post(url, preparePayload(sketchState));
     setIsLoading(false);
+    setShouldAnimate(true);
     setState(payload.data);
   }
   /*----------------------------------------------------------------------------
@@ -124,10 +126,10 @@ export default function RRTVisualization() {
   // This is the effect in charge of managing the p5 sketch
   useEffect(() => {
     let myp5 = new p5(
-      rrtSketchFunction(state, sketchState, setSketchState, menuValue),
+      rrtSketchFunction(state, sketchState, setSketchState, menuValue, shouldAnimate),
       ref.current
     );
-
+    setShouldAnimate(false);
     // Return a function that deletes the canvas so we don't have duplicates
     return () => {
       myp5.remove();
