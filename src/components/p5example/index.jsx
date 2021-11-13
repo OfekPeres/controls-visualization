@@ -40,17 +40,18 @@ export default function P5Example() {
       }
 
       sketch.draw = () => {
-          if (sketch.mouseIsPressed)
-          {
-            let c = sketch.color(
-                255 * Math.random(),
-                255 * Math.random(),
-                255 * Math.random()
-              );
-              sketch.fill(c);
-            sketch.ellipse(sketch.mouseX,sketch.mouseY, 80, 80);
-          }
+         
       };
+      sketch.mousePressed = () => {
+        let c = sketch.color(
+          255 * Math.random(),
+          255 * Math.random(),
+          255 * Math.random()
+        );
+        sketch.fill(c);
+      sketch.ellipse(sketch.mouseX,sketch.mouseY, 80, 80);
+
+      }
     };
 
     let myp5 = new p5(sketchFunction, ref.current);

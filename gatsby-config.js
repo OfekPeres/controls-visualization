@@ -10,7 +10,7 @@ module.exports = {
     siteUrl: 'https://ofekperes.github.io/controls-visualization/',
     title: 'Controls Visualizer',
   },
-  plugins: ['gatsby-plugin-postcss'],
+  plugins: ['gatsby-plugin-postcss', 'gatsby-plugin-sass', 'gatsby-plugin-styled-components'],
   pathPrefix: "/controls-visualization",
 };
 
