@@ -97,7 +97,7 @@ export default function RRTVisualization() {
   useEffect(() => {
     async function fetchData() {
       const payload = await axios.post(
-        `${process.env.BACKEND_URL}/rrt`,
+        `${process.env.GATSBY_BACKEND_URL}/rrt`,
         preparePayload(sketchState)
       );
       setState(payload.data);
@@ -111,10 +111,9 @@ export default function RRTVisualization() {
   --------------------------------------------------------------------------- */
   async function getRRTMap() {
     setIsLoading(true);
-    const payload = await axios.post(
-      `${process.env.BACKEND_URL}/rrt`,
-      preparePayload(sketchState)
-    );
+    const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
+    console.log(url);
+    const payload = await axios.post(url, preparePayload(sketchState));
     setIsLoading(false);
     setState(payload.data);
   }
@@ -200,7 +199,12 @@ export default function RRTVisualization() {
         {isLoading ? (
           <div className="flex items-center justify-center space-x-3">
             <p>"Waiting for backend to deliver results!"</p>
-              <ReactLoading type='spinningBubbles' color="blue" width="24px" height="24px"></ReactLoading>
+            <ReactLoading
+              type="spinningBubbles"
+              color="blue"
+              width="24px"
+              height="24px"
+            ></ReactLoading>
           </div>
         ) : (
           ''
