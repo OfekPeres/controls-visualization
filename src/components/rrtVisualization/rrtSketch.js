@@ -2,7 +2,8 @@ export default function rrtSketchFunction(
   rrtState,
   sketchState,
   setSketchState,
-  menuValue
+  menuValue,
+  shouldAnimate
 ) {
   return (p5) => {
     // Define some sketch constants
@@ -12,6 +13,21 @@ export default function rrtSketchFunction(
     const green = p5.color(0, 255, 0);
     const blue = p5.color(0, 50, 255);
     const red = p5.color(255, 50, 10);
+
+    // RRT Animation values
+    let explorationIndex = 0;
+    let isExplorationComplete = false;
+    let goalPathNodes = [];
+    // Collect the goal path as an array that can be iterated over backwards to
+    // go from start to goal
+    if (rrtState) {
+      let goalNode = rrtState.points[rrtState.targetNodeIndex];
+      while (goalNode) {
+        goalPathNodes.push(goalNode);
+        goalNode = rrtState.points[goalNode.parentIndex];
+      }
+    }
+    let goalPathDrawingIndex = goalPathNodes.length - 1;
 
     /**
      * A Method to draw all of the points in the rrtState object
@@ -44,6 +60,37 @@ export default function rrtSketchFunction(
       }
     }
 
+    function animateRRTExploration() {
+      p5.stroke(blue);
+      p5.strokeWeight(2);
+      const point = rrtState.points[explorationIndex];
+      p5.fill(green);
+      p5.circle(point.x, point.y, 3);
+      if (point.parentIndex !== -1) {
+        const parent = rrtState.points[point.parentIndex];
+        p5.line(point.x, point.y, parent.x, parent.y);
+      }
+
+      if (explorationIndex < rrtState.points.length - 1) explorationIndex++;
+      else {
+        isExplorationComplete = true;
+      }
+    }
+    function animateRRTGoalPath() {
+      if (!isExplorationComplete) return;
+      // Draw Goal Path
+      const point = goalPathNodes[goalPathDrawingIndex];
+
+      p5.stroke(green);
+      p5.strokeWeight(3);
+      const nextNode = goalPathNodes[goalPathDrawingIndex - 1];
+
+      p5.line(point.x, point.y, nextNode.x, nextNode.y);
+      if (goalPathDrawingIndex > 1) {
+        goalPathDrawingIndex--;
+      }
+    }
+
     /**
      * A method to draw all of the currently defined obstacles
      */
@@ -56,7 +103,7 @@ export default function rrtSketchFunction(
             p5.rect(obs.x, obs.y, obs.w, obs.h);
             break;
           case 'circle':
-            p5.circle(obs.x, obs.y, obs.r*2);
+            p5.circle(obs.x, obs.y, obs.r * 2);
             break;
           default:
         }
@@ -76,10 +123,10 @@ export default function rrtSketchFunction(
       } = sketchState.startPoint;
       const { x: xgoal, y: ygoal, radius: goalRadius } = sketchState.goalPoint;
 
-      p5.circle(xstart, ystart, startRadius*2);
+      p5.circle(xstart, ystart, startRadius * 2);
       p5.stroke(p5.color(0));
       p5.fill(blue);
-      p5.circle(xgoal, ygoal, goalRadius*2);
+      p5.circle(xgoal, ygoal, goalRadius * 2);
     }
 
     function handleMouseClicked() {
@@ -130,29 +177,42 @@ export default function rrtSketchFunction(
     }
 
     /**
-     *
-     * @param {*} p5 The P5 instance passed in that allows us to draw everything
+     * The setup function for the sketch
      */
-    function setup(p5) {
+    function setup() {
       const canvas = p5.createCanvas(W, H);
 
       canvas.mousePressed(handleMouseClicked);
       p5.background(55);
 
-      // Draw the rrt graph if its not undefined
-      // Draw Start and Goal as green
       if (sketchState && rrtState) {
+        // Draw Start and Goal as green
         drawStartandGoal();
+        // Draw the rrt graph
+        if (!shouldAnimate) {
+          drawRRTPoints();
+        }
         //   Draw Obstacles in red
-        drawRRTPoints();
         drawObstacles();
       }
-      if (rrtState) {
+    }
+    /**
+     *
+     * The draw function for the sketch
+     */
+
+    function draw(p5) {
+      if (shouldAnimate && rrtState && sketchState) {
+        animateRRTExploration();
+        animateRRTGoalPath();
       }
     }
 
     // Set all of the p5 objects important functions here
-    p5.setup = () => setup(p5);
+    p5.setup = setup;
+    p5.draw = draw;
+
+    // p5.draw = () => draw(p5)
     // p5.mousePressed = () => handleMouseClicked();
   };
 }
