@@ -113,7 +113,6 @@ export default function RRTVisualization() {
     if (isLoading) return;
     setIsLoading(true);
     const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
-    console.log(url);
     const payload = await axios.post(url, preparePayload(sketchState));
     setIsLoading(false);
     setState(payload.data);
@@ -153,7 +152,6 @@ export default function RRTVisualization() {
    * @param {*} value The new Goal Point Radius being captured by the slider input
    */
   function setGoalPointRadius(value) {
-    console.log(value);
     setSketchState((prev) => {
       return {
         ...prev,

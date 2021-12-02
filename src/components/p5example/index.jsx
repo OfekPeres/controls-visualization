@@ -14,8 +14,6 @@ export default function P5Example() {
     const sketchFunction = (sketch) => {
       const W = 600;
       const H = 600;
-      console.log(`${process.env.GATSBY_TEST}`);
-      console.log(`${process.env.GATSBY_API_URL}/users`);
 
       sketch.setup = () => {
         sketch.createCanvas(W, H);

@@ -34,6 +34,5 @@ export function preparePayload(sketchState) {
   payload['d_max'] = sketchState.stepSize;
   payload['obstacles'] = convertObstaclesToBackendFormat(sketchState.obstacles);
 
-  console.log(JSON.stringify(payload));
   return payload;
 }
