@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const initialSketchState = {
-  carLength: 30,
+  carLength: 44,
   carSpeed: 1,
   carColor: '#ee6352',
   selectedCarTheta: 0,
