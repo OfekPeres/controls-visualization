@@ -1,4 +1,4 @@
-import Car from '../pidVisualization/car';
+import Car from '../../carVisualizer/car';
 import CarManager from '../../carVisualizer/carManager';
 export default function pidSketchFunction(
   dubinsState,

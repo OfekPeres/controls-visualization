@@ -181,7 +181,7 @@ export default function rrtSketchFunction(
      */
     function setup() {
       const canvas = p5.createCanvas(W, H);
-
+      // p5.frameRate(1)
       canvas.mousePressed(handleMouseClicked);
       p5.background(55);
 
@@ -201,7 +201,7 @@ export default function rrtSketchFunction(
      * The draw function for the sketch
      */
 
-    function draw(p5) {
+    function draw() {
       if (shouldAnimate && rrtState && sketchState) {
         animateRRTExploration();
         animateRRTGoalPath();
