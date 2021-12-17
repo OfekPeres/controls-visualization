@@ -22,7 +22,7 @@ function Tab({ text, isSelected, setState, index }) {
         isSelected
           ? 'bg-[#d5d5d5] hover:bg-[#d5d5d5] text-black'
           : 'bg-[#747474] hover:bg-[#3e3e3f]'
-      } px-8 mx-3 py-2 rounded-xl cursor-pointer`}
+      } text-xs sm:text-base lg:text-lg px-2 lg:px-8 mx-1 lg:mx-3 py-1 lg:py-2 rounded-xl cursor-pointer flex items-center justify-center text-center`}
     >
       {text}
     </div>
