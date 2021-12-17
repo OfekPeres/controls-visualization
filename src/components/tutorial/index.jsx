@@ -38,7 +38,7 @@ export default function Tutorial() {
   });
 
   return (
-    <div className="grid grid-cols-1 place-items-center lg:grid-cols-2 ">
+    <div className="grid grid-cols-1 lg:grid-cols-2 ">
       {/* <h1 className="text-black text-lg">{JSON.stringify(windowSize)}</h1> */}
       <TutorialText />
       <div
