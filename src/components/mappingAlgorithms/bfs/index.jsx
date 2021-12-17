@@ -230,7 +230,7 @@ export default function BFSVisualization() {
             onClick={() => getBFSMap()}
             disabled={isLoading}
           >
-            Generate the RRT Map!
+            Generate the Map!
           </button>
           <button
             className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
