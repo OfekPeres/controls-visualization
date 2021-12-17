@@ -1,5 +1,5 @@
 import React from 'react';
-import Slider from '../ui/slider';
+import Slider from '../../ui/slider';
 function StartNodeSlider({ value, setValue, min, max, step, color }) {
   return (
     <div className="flex flex-col justify-center items-center">

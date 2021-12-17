@@ -1,5 +1,5 @@
-export default function rrtSketchFunction(
-  rrtState,
+export default function bfsSketchFunction(
+  bfsState,
   sketchState,
   setSketchState,
   menuValue,
@@ -20,58 +20,58 @@ export default function rrtSketchFunction(
     let goalPathNodes = [];
     // Collect the goal path as an array that can be iterated over backwards to
     // go from start to goal
-    if (rrtState) {
-      let goalNode = rrtState.points[rrtState.targetNodeIndex];
+    if (bfsState && bfsState.points) {
+      let goalNode = bfsState.points[bfsState.targetNodeIndex];
       while (goalNode) {
         goalPathNodes.push(goalNode);
-        goalNode = rrtState.points[goalNode.parentIndex];
+        goalNode = bfsState.points[goalNode.parentIndex];
       }
     }
     let goalPathDrawingIndex = goalPathNodes.length - 1;
 
     /**
-     * A Method to draw all of the points in the rrtState object
+     * A Method to draw all of the points in the bfsState object
      */
     function drawRRTPoints() {
       // Draw all of the points in the graph
       p5.stroke(blue);
       p5.strokeWeight(2);
-      rrtState.points.forEach((point) => {
+      bfsState.points.forEach((point) => {
         const { x, y } = point;
         p5.fill(green);
         p5.circle(x, y, 3);
         // connect the current point to its "parent" with a line
         if (point.parentIndex !== -1) {
-          const parent = rrtState.points[point.parentIndex];
+          const parent = bfsState.points[point.parentIndex];
           const { x: parentX, y: parentY } = parent;
           p5.line(x, y, parentX, parentY);
         }
       });
       // Draw Goal Path
-      const goalNode = rrtState.points[rrtState.targetNodeIndex];
+      const goalNode = bfsState.points[bfsState.targetNodeIndex];
       let point = goalNode;
       p5.stroke(green);
       p5.strokeWeight(3);
       while (point.parentIndex !== -1) {
-        const parent = rrtState.points[point.parentIndex];
+        const parent = bfsState.points[point.parentIndex];
         const { x: parentX, y: parentY } = parent;
         p5.line(point.x, point.y, parentX, parentY);
-        point = rrtState.points[point.parentIndex];
+        point = bfsState.points[point.parentIndex];
       }
     }
 
     function animateRRTExploration() {
       p5.stroke(blue);
       p5.strokeWeight(2);
-      const point = rrtState.points[explorationIndex];
+      const point = bfsState.points[explorationIndex];
       p5.fill(green);
       p5.circle(point.x, point.y, 3);
       if (point.parentIndex !== -1) {
-        const parent = rrtState.points[point.parentIndex];
+        const parent = bfsState.points[point.parentIndex];
         p5.line(point.x, point.y, parent.x, parent.y);
       }
 
-      if (explorationIndex < rrtState.points.length - 1) explorationIndex++;
+      if (explorationIndex < bfsState.points.length - 1) explorationIndex++;
       else {
         isExplorationComplete = true;
       }
@@ -124,7 +124,7 @@ export default function rrtSketchFunction(
       const { x: xgoal, y: ygoal, radius: goalRadius } = sketchState.goalPoint;
 
       p5.circle(xstart, ystart, startRadius * 2);
-      p5.stroke(p5.color(0));
+      p5.noStroke();
       p5.fill(blue);
       p5.circle(xgoal, ygoal, goalRadius * 2);
     }
@@ -183,18 +183,20 @@ export default function rrtSketchFunction(
       const canvas = p5.createCanvas(W, H);
       // p5.frameRate(1)
       canvas.mousePressed(handleMouseClicked);
-      p5.background(55);
+      p5.background('#747474');
 
-      if (sketchState && rrtState) {
+      if (sketchState) {
         // Draw Start and Goal as green
         drawStartandGoal();
+      }
+      if (bfsState) {
         // Draw the rrt graph
         if (!shouldAnimate) {
           drawRRTPoints();
         }
-        //   Draw Obstacles in red
-        drawObstacles();
       }
+      //   Draw Obstacles in red
+      drawObstacles();
     }
     /**
      *
@@ -202,7 +204,7 @@ export default function rrtSketchFunction(
      */
 
     function draw() {
-      if (shouldAnimate && rrtState && sketchState) {
+      if (shouldAnimate && bfsState && sketchState) {
         animateRRTExploration();
         animateRRTGoalPath();
       }
@@ -211,8 +213,5 @@ export default function rrtSketchFunction(
     // Set all of the p5 objects important functions here
     p5.setup = setup;
     p5.draw = draw;
-
-    // p5.draw = () => draw(p5)
-    // p5.mousePressed = () => handleMouseClicked();
   };
 }

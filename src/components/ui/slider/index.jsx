@@ -53,7 +53,7 @@ const Styled = styled.div`
     width: 100%;
     height: 16px;
     border-radius: 5px;
-    background: #ededed;
+    background: white;
     outline: none;
 
     &::-webkit-slider-thumb {

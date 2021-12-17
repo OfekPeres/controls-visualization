@@ -1,5 +1,5 @@
 import React from 'react';
-import Slider from '../ui/slider';
+import Slider from '../../ui/slider';
 function StartNodeSlider({ value, setValue, min, max, step, color }) {
   return (
     <div className="flex flex-col justify-center items-center">
@@ -18,7 +18,7 @@ function StartNodeSlider({ value, setValue, min, max, step, color }) {
 
 function GoalNodeSlider({ value, setValue, min, max, step, color }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <p>The Goal Area Radius is: {value}</p>
       <Slider
         value={value}
@@ -34,7 +34,7 @@ function GoalNodeSlider({ value, setValue, min, max, step, color }) {
 
 function CircleRadiusSlider({ value, setValue, min, max, step, color }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <p>Set the radius of the circle obstacles: {value}</p>
       <Slider
         value={value}
@@ -50,7 +50,7 @@ function CircleRadiusSlider({ value, setValue, min, max, step, color }) {
 
 function StepSizeRadiusSlider({ value, setValue, min, max, step, color }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <p>Set the max step size for the RRT algorithm: {value}</p>
       <Slider
         value={value}
@@ -75,7 +75,7 @@ function RectangleSizeSlider({
   color,
 }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <h3 className="text-lg font-bold">
         Set the Dimensions of the Rectangular Obstacles
       </h3>

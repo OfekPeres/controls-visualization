@@ -1,6 +1,6 @@
-import Car from '../../carVisualizer/car';
-import CarManager from '../../carVisualizer/carManager';
-export default function pidSketchFunction(
+import Car from '../../../carVisualizer/car';
+import CarManager from '../../../carVisualizer/carManager';
+export default function optimalControlSketch(
   dubinsState,
   sketchState,
   setSketchState,
@@ -71,7 +71,7 @@ export default function pidSketchFunction(
     function writeText(text, x, y) {
       p5.push();
       p5.scale(1, -1);
-      p5.textSize(12)
+      p5.textSize(12);
       p5.text(text, x, -y);
       p5.pop();
     }
@@ -128,25 +128,20 @@ export default function pidSketchFunction(
       //   }
 
       // Use the car manager class to run thru a set of dubins paths
-      if (dubinsState && dubinsState.paths && !carManager.reachedGoal && sketchState.controlMode == "dubins") {
+      if (
+        dubinsState &&
+        dubinsState.paths &&
+        !carManager.reachedGoal &&
+        sketchState.controlMode == 'dubins'
+      ) {
         carManager.step();
-      }
-      else if (sketchState && sketchState.poseWayPoints && sketchState.controlMode=="pidPoseWayPoints")
-      {
-        carManager.pidTrackPoseWayPoints()
-      } 
-      else if (sketchState && sketchState.poseWayPoints && sketchState.controlMode=="pidDubinsWayPoints")
-      {
-        carManager.pidTrackDubinsWayPoints()
-      } 
-      else {
+      } else {
         //     car = new Car(0,0,0, p5)
         //     controlIndex = 0
         car.run();
       }
-      if (carManager.reachedGoal)
-      {
-        setSketchState(prev => ({...prev, controlMode:null}))
+      if (carManager.reachedGoal) {
+        setSketchState((prev) => ({ ...prev, controlMode: null }));
       }
     }
 

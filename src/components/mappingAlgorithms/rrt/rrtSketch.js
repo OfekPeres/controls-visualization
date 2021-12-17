@@ -124,7 +124,7 @@ export default function rrtSketchFunction(
       const { x: xgoal, y: ygoal, radius: goalRadius } = sketchState.goalPoint;
 
       p5.circle(xstart, ystart, startRadius * 2);
-      p5.stroke(p5.color(0));
+      p5.noStroke();
       p5.fill(blue);
       p5.circle(xgoal, ygoal, goalRadius * 2);
     }
@@ -183,18 +183,20 @@ export default function rrtSketchFunction(
       const canvas = p5.createCanvas(W, H);
       // p5.frameRate(1)
       canvas.mousePressed(handleMouseClicked);
-      p5.background(55);
+      p5.background('#747474');
 
-      if (sketchState && rrtState) {
+      if (sketchState) {
         // Draw Start and Goal as green
         drawStartandGoal();
+      }
+      if (rrtState) {
         // Draw the rrt graph
         if (!shouldAnimate) {
           drawRRTPoints();
         }
-        //   Draw Obstacles in red
-        drawObstacles();
       }
+      //   Draw Obstacles in red
+      drawObstacles();
     }
     /**
      *
@@ -211,8 +213,5 @@ export default function rrtSketchFunction(
     // Set all of the p5 objects important functions here
     p5.setup = setup;
     p5.draw = draw;
-
-    // p5.draw = () => draw(p5)
-    // p5.mousePressed = () => handleMouseClicked();
   };
 }

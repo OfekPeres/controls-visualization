@@ -1,4 +1,4 @@
-import Car from './car';
+import Car from '../../carVisualizer/car';
 export default function pidSketchFunction(
   pidState,
   sketchState,

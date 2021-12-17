@@ -7,9 +7,13 @@ export default class CarManager {
     this.currentSteer = 0;
     this.currentPathIndex = 0;
     this.paths = null;
-    this.reachedGoal = false
-    this.pidWayPointIndex = 0
-    this.pidDubinsWayPointIndex = 0
+    this.reachedGoal = false;
+    this.pidWayPointIndex = 0;
+    this.pidDubinsWayPointIndex = 0;
+
+    // Vanilla position way points
+    this.waypoints = [];
+    this.waypointsIndex = 0;
   }
 
   step() {
@@ -19,9 +23,9 @@ export default class CarManager {
     }
     if (this.currentPathIndex > this.paths.length - 1) {
       this.car.display();
-      this.car.setSpeed(0)
-      this.car.steer(0)
-      this.reachedGoal = true
+      this.car.setSpeed(0);
+      this.car.steer(0);
+      this.reachedGoal = true;
       return;
     }
 
@@ -51,6 +55,7 @@ export default class CarManager {
       this.currentPathIndex++;
       this.setSteeringForNewPath(this.paths[this.currentPathIndex]);
     }
+
     this.car.run();
   }
 
@@ -86,53 +91,65 @@ export default class CarManager {
     this.currentSteer = steering;
   }
 
-  setpidWaypoints()
-  {
-    
+  dist(p1, p2) {
+    return Math.sqrt(
+      (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)
+    );
   }
-  dist(p1,p2)
-  {
-    return Math.sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y))
-  }
-  pidTrackPoseWayPoints()
-  {
-    const dist2goal = 5
-    if (this.pidWayPointIndex >= this.sketchState.poseWayPoints.length) 
-    {
+  pidTrackPoseWayPoints() {
+    const dist2goal = 5;
+    if (this.pidWayPointIndex >= this.sketchState.poseWayPoints.length) {
       this.car.display();
-      this.car.setSpeed(0)
-      this.car.steer(0)
-      this.reachedGoal = true
-      return
+      this.car.setSpeed(0);
+      this.car.steer(0);
+      this.reachedGoal = true;
+      return;
     }
-    const curWayPoint = this.sketchState.poseWayPoints[this.pidWayPointIndex]
-    this.car.track(curWayPoint.x, curWayPoint.y, dist2goal)
-    const dist = this.dist(curWayPoint, this.car.loc)
-    console.log(dist)
-    if (dist <= dist2goal)
-    {
+    const curWayPoint = this.sketchState.poseWayPoints[this.pidWayPointIndex];
+    this.car.track(curWayPoint.x, curWayPoint.y, dist2goal);
+    const dist = this.dist(curWayPoint, this.car.loc);
+
+    if (dist <= dist2goal) {
       this.pidWayPointIndex++;
     }
     this.car.run();
   }
-  pidTrackDubinsWayPoints()
-  {
-    const dist2goal = 2
-    if (this.pidDubinsWayPointIndex >= this.sketchState.positionWayPoints.length) 
-    {
+  pidTrackDubinsWayPoints() {
+    const dist2goal = 2;
+    if (
+      this.pidDubinsWayPointIndex >= this.sketchState.positionWayPoints.length
+    ) {
       this.car.display();
-      this.car.setSpeed(0)
-      this.car.steer(0)
-      this.reachedGoal = true
-      return
+      this.car.setSpeed(0);
+      this.car.steer(0);
+      this.reachedGoal = true;
+      return;
     }
-    const curWayPoint = this.sketchState.positionWayPoints[this.pidDubinsWayPointIndex]
-    this.car.track(curWayPoint.x, curWayPoint.y, dist2goal)
-    const dist = this.dist(curWayPoint, this.car.loc)
-    console.log(dist)
-    if (dist <= dist2goal)
-    {
+    const curWayPoint =
+      this.sketchState.positionWayPoints[this.pidDubinsWayPointIndex];
+    this.car.track(curWayPoint.x, curWayPoint.y, dist2goal);
+    const dist = this.dist(curWayPoint, this.car.loc);
+    if (dist <= dist2goal) {
       this.pidDubinsWayPointIndex++;
+    }
+    this.car.run();
+  }
+
+  pidTrackPositionWayPoints(pwaypoints) {
+    const dist2goal = 10;
+    if (this.waypointsIndex >= pwaypoints.length) {
+      this.car.display();
+      this.car.setSpeed(0);
+      this.car.steer(0);
+      this.reachedGoal = true;
+      return;
+    }
+    const curWayPoint = pwaypoints[this.waypointsIndex];
+    this.car.track(curWayPoint.x, curWayPoint.y, dist2goal);
+    const dist = this.dist(curWayPoint, this.car.loc);
+
+    if (dist <= dist2goal) {
+      this.waypointsIndex++;
     }
     this.car.run();
   }

@@ -26,8 +26,8 @@ function DubinsPath() {
   const [isLoading, setIsLoading] = useState(false);
   const canvas_ref = useRef();
   const car_ref = useRef({
-    x: sketchState.canvasWidth / 2,
-    y: sketchState.canvasHeight / 2,
+    x: sketchState.canvasWidth / 4,
+    y: sketchState.canvasHeight / 4,
     theta: 0,
     phi: 0,
   });

@@ -1,6 +1,6 @@
+# See the live site [here](https://ofekperes.github.io/controls-visualization/)
 
-
-## 🚀 Quick start
+## 🚀 Quick start for Developers
 *Important note: make sure you have node and npm installed. 16.2.0 is the version that works for me and I use nvm (node version manager). If using nvm type command:
 ``` shell
 nvm use 16.2.0
@@ -43,4 +43,4 @@ https://reactjs.org/docs/getting-started.html
 https://p5js.org/
 
 
-# See the live site [here](https://ofekperes.github.io/controls-visualization/)
+

@@ -94,6 +94,7 @@ export default function RRTVisualization() {
 
   /*----------------------------------------------------------------------------
   GET INITIAL RRT Example MAP WHEN THE PAGE LOADS 
+  // TODO: FIX THIS NONSENSE
   --------------------------------------------------------------------------- */
   useEffect(() => {
     async function fetchData() {
@@ -284,7 +285,7 @@ export default function RRTVisualization() {
               <StepSizeRadiusSlider
                 value={sketchState.stepSize}
                 setValue={setStepSize}
-                min={2}
+                min={10}
                 max={100}
                 step={1}
                 color={'#bad7f2'}
