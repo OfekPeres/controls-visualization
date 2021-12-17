@@ -108,10 +108,7 @@ export default function rrtSketchFunction(
       if (goalPathDrawingIndex > 1) {
         goalPathDrawingIndex--;
       } else {
-        console.log(shouldAnimate)
-        console.log("Set State")
         setShouldAnimate(1)
-        console.log(shouldAnimate)
       }
     }
 
@@ -189,7 +186,6 @@ export default function rrtSketchFunction(
           }));
           car_ref.current.x = p5.mouseX;
           car_ref.current.y = p5.mouseY;
-          console.log(car_ref);
           break;
 
         case 'Goal Node':
@@ -221,7 +217,7 @@ export default function rrtSketchFunction(
         // Draw the rrt graph
         if (shouldAnimate == 2) {
           drawRRTPoints();
-          
+
         }
       }
       //   Draw Obstacles in red
@@ -234,7 +230,6 @@ export default function rrtSketchFunction(
 
     const start2goalPath = goalPathNodes.reverse();
     function draw() {
-      console.log(shouldAnimate)
       if (shouldAnimate == 2) {
         return;
       }
