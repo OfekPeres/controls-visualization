@@ -43,7 +43,7 @@ const initialSketchState = {
     maxRadius: 100,
     step: 1,
   },
-  stepSize: 30,
+  stepSize: 40,
   circle: {
     radius: 20,
     minRadius: 1,
@@ -84,7 +84,7 @@ export default function BangBangRRTVisualization() {
   const [sketchState, setSketchState] = useState(initialSketchState);
   const [menuValue, setMenuValue] = useState('circle');
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldAnimate, setShouldAnimate] = useState(true);
+  const [shouldAnimate, setShouldAnimate] = useState(0);
   const canvasSize = useCanvasSize();
   const ref = useRef();
   const car_ref = useRef({
@@ -114,12 +114,12 @@ export default function BangBangRRTVisualization() {
   Send the user defined map to the backend to solve it!
   --------------------------------------------------------------------------- */
   async function getRRTMap() {
+    setShouldAnimate(0);
     if (isLoading) return;
     setIsLoading(true);
     const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
     const payload = await axios.post(url, preparePayload(sketchState));
     setIsLoading(false);
-    setShouldAnimate(true);
     setState(payload.data);
   }
   /*----------------------------------------------------------------------------
@@ -135,16 +135,17 @@ export default function BangBangRRTVisualization() {
         setSketchState,
         menuValue,
         shouldAnimate,
+        setShouldAnimate,
         car_ref
       ),
       ref.current
     );
-    setShouldAnimate(false);
+    // setShouldAnimate(false);
     // Return a function that deletes the canvas so we don't have duplicates
     return () => {
       myp5.remove();
     };
-  }, [state, sketchState, menuValue]);
+  }, [state, sketchState, menuValue, shouldAnimate]);
 
   /*----------------------------------------------------------------------------
   HELPER FUNCTIONS TO ORGANIZE OUR SET STATE FOR THE DIFFERENT SLIDERS
@@ -224,7 +225,10 @@ export default function BangBangRRTVisualization() {
           </button>
           <button
             className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
-            onClick={() => setSketchState({ ...sketchState, obstacles: [] })}
+            onClick={() => {
+              setSketchState({ ...sketchState, obstacles: [] });
+              setShouldAnimate(2)
+            }}
           >
             Clear Obstacles (X)
           </button>

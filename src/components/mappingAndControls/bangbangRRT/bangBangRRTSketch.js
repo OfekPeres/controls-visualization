@@ -6,6 +6,7 @@ export default function rrtSketchFunction(
   setSketchState,
   menuValue,
   shouldAnimate,
+  setShouldAnimate,
   car_ref
 ) {
   return (p5) => {
@@ -45,6 +46,7 @@ export default function rrtSketchFunction(
     car.setSpeed(0);
 
     const carManager = new CarManager(car, sketchState, p5);
+
 
     /**
      * A Method to draw all of the points in the rrtState object
@@ -105,6 +107,11 @@ export default function rrtSketchFunction(
       p5.line(point.x, point.y, nextNode.x, nextNode.y);
       if (goalPathDrawingIndex > 1) {
         goalPathDrawingIndex--;
+      } else {
+        console.log(shouldAnimate)
+        console.log("Set State")
+        setShouldAnimate(1)
+        console.log(shouldAnimate)
       }
     }
 
@@ -208,27 +215,45 @@ export default function rrtSketchFunction(
       if (sketchState) {
         // Draw Start and Goal as green
         drawStartandGoal();
+        car.run();
       }
       if (rrtState) {
         // Draw the rrt graph
-        if (!shouldAnimate) {
+        if (shouldAnimate == 2) {
           drawRRTPoints();
+          
         }
-        //   Draw Obstacles in red
-        drawObstacles();
       }
+      //   Draw Obstacles in red
+      drawObstacles();
     }
     /**
      *
      * The draw function for the sketch
      */
 
+    const start2goalPath = goalPathNodes.reverse();
     function draw() {
-      if (shouldAnimate && rrtState && sketchState) {
+      console.log(shouldAnimate)
+      if (shouldAnimate == 2) {
+        return;
+      }
+      if (shouldAnimate == 0 && rrtState && sketchState) {
         animateRRTExploration();
         animateRRTGoalPath();
+        car.run();
       }
-      car.run();
+      if (shouldAnimate == 1 && rrtState && sketchState) {
+        p5.background('#747474');
+        drawObstacles();
+        drawStartandGoal();
+        drawRRTPoints();
+        carManager.pidTrackPositionWayPoints(start2goalPath);
+      }
+
+      if (carManager.reachedGoal) {
+        setShouldAnimate(2);
+      }
     }
 
     // Set all of the p5 objects important functions here
