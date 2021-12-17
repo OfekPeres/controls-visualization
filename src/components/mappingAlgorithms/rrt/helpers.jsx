@@ -75,7 +75,7 @@ function RectangleSizeSlider({
   color,
 }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <h3 className="text-lg font-bold">
         Set the Dimensions of the Rectangular Obstacles
       </h3>

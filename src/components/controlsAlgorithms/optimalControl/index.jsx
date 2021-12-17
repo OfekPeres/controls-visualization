@@ -100,8 +100,40 @@ function DubinsPath() {
     }));
   }
   return (
+
+
+
     <div className="grid grid-cols-1 lg:grid-cols-2">
       {/* Text and Buttons go here */}
+      <div className=" flex flex-col items-center">
+
+      <div className="flex flex-col">
+
+        <div>
+          <h1 className="text-5xl font-bold text-gray-800 p-6">
+            Optimal Controls</h1>
+        </div>
+
+        <div>
+          <h2 className="text-l text-gray-800 p-6">
+            <span className="font-bold underline">Click on the screen</span> to set target points, and 
+            use the slider to change the orientation of each target. 
+          </h2>
+        </div>
+
+        <div>
+          <h2 className="text-l text-gray-800 p-6">
+            Optimal controls enables perfect tracking of points, with both locaiton and orientation!
+            When you've set the points you want, click
+             the <span className="font-bold underline"> Calculate Dubin's Path </span> button, and then 
+             the <span className="font-bold underline"> Run Dubin's Path </span> button! 
+          </h2>
+        </div>
+
+      </div>
+
+
+
       <div className="flex flex-col items-center justify-center text-black">
         <div className="flex justify-center items-center space-x-3">
           <button
@@ -121,7 +153,7 @@ function DubinsPath() {
             }}
             disabled={isLoading || sketchState.poseWayPoints.length < 1}
           >
-            Run Open Loop Dubins Path!
+            Run Dubins Path!
           </button>
           <button
             className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
@@ -183,6 +215,7 @@ function DubinsPath() {
               setSketchState({ ...sketchState, carColor: e.target.value })
             }
           /> */}
+        </div>
         </div>
       </div>
       <div className="flex justify-center items-center">

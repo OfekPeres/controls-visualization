@@ -220,7 +220,7 @@ export default function RRTVisualization() {
 
         <div>
             <h2 className="text-l text-gray-800 p-6">
-                Once you've placed a start node and end node, and any obstacles you'd like, choose the mapping algorithm you want to visulaise, then generate the map!
+                Once you've placed a start node and end node, and any obstacles you'd like, choose the mapping algorithm you want to visualise, then generate the map!
             </h2>
         </div>
 

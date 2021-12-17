@@ -211,7 +211,31 @@ export default function BangBangRRTVisualization() {
       <div className="text-black flex flex-col items-center">
         {/* Explanation of RRT Goes Here */}
         <div className="p-4">
-          <h1 className="text-4xl">User Explanation Text</h1>
+          <div className="flex flex-col">
+            <div>
+              <h1 className="text-5xl font-bold text-gray-800 p-6">
+                Bang Bang with RRT</h1>
+            </div>
+
+            <div>
+              <h2 className="text-l text-gray-800 p-6">
+Define the start, end, and obstacles by selecting   </h2>
+            </div>
+
+
+            <div>
+              <h2 className="text-l text-gray-800 p-6">
+                Now we can combine mapping and control alogirhtms - so the car really can find its own way from start to finish!
+              </h2>
+            </div>
+
+
+
+          </div>
+
+
+
+
         </div>
         {/* User Input Code Starts Here */}
         <ListBox options={SHAPES} updateParentSelection={setMenuValue} />

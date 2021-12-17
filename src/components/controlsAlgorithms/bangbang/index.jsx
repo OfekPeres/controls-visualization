@@ -54,9 +54,9 @@ export default function BangBang() {
 
           <div>
             <h1 className="text-5xl font-bold text-gray-800 p-6">
-              Autonomous Controls</h1>
+              Bang Bang Controls</h1>
           </div>
-          
+
           <div>
             <h2 className="text-l text-gray-800 p-6">
               <span className="font-bold underline">Click on the screen</span> to set target points.
@@ -65,9 +65,9 @@ export default function BangBang() {
 
           <div>
             <h2 className="text-l text-gray-800 p-6">
-              We want the car to hit each of these points autonomously. We implemented three ways of doing this, 
-              Bang-Bang, PID and optimal control. <span className="font-bold underline">[include link to documentation?]</span>
-              When you've set the points you want and selected the control you want to see from the drop down, 
+              We want the car to hit each of these points autonomously. We implemented three ways of doing this,
+              which you can select from the drop-down menu above. 
+              When you've set the points you want 
               and click the <span className="font-bold underline"> track waypoints </span> button below.
             </h2>
           </div>
