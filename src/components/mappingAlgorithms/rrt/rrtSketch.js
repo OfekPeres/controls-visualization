@@ -183,22 +183,20 @@ export default function rrtSketchFunction(
       const canvas = p5.createCanvas(W, H);
       // p5.frameRate(1)
       canvas.mousePressed(handleMouseClicked);
-      p5.background("#747474");
+      p5.background('#747474');
 
-      if (sketchState)
-      {
+      if (sketchState) {
         // Draw Start and Goal as green
-        drawStartandGoal()
+        drawStartandGoal();
       }
       if (rrtState) {
-        
         // Draw the rrt graph
         if (!shouldAnimate) {
           drawRRTPoints();
         }
-        //   Draw Obstacles in red
-        drawObstacles();
       }
+      //   Draw Obstacles in red
+      drawObstacles();
     }
     /**
      *
