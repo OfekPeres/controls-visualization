@@ -55,6 +55,7 @@ export default class CarManager {
       this.currentPathIndex++;
       this.setSteeringForNewPath(this.paths[this.currentPathIndex]);
     }
+
     this.car.run();
   }
 
@@ -107,7 +108,7 @@ export default class CarManager {
     const curWayPoint = this.sketchState.poseWayPoints[this.pidWayPointIndex];
     this.car.track(curWayPoint.x, curWayPoint.y, dist2goal);
     const dist = this.dist(curWayPoint, this.car.loc);
-    
+
     if (dist <= dist2goal) {
       this.pidWayPointIndex++;
     }

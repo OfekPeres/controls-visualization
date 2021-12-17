@@ -4,7 +4,7 @@ import Tabs from '../components/ui/tabs/';
 import Tutorial from '../components/tutorial';
 import ControlAlgorithms from '../components/controlsAlgorithms';
 import MappingAlgorithms from '../components/mappingAlgorithms';
-
+import MappingandControlAlgorithms from '../components/mappingAndControls';
 function Square({ text }) {
   return <div className="w-72 h-72 relative bg-blue-300">{text}</div>;
 }
@@ -33,7 +33,7 @@ const IndexPage = () => {
             0: <Tutorial />,
             1: <ControlAlgorithms />,
             2: <MappingAlgorithms />,
-            3: <Square text={'Tab 3'} />,
+            3: <MappingandControlAlgorithms />,
             4: <Square text={'Tab 4'} />,
             5: <Square text={'Tab 5'} />,
             6: <Square text={'Tab 6'} />,

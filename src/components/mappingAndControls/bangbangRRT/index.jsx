@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import p5 from 'p5';
 import axios from 'axios';
 import ListBox from '../../ui/listbox';
-import rrtSketchFunction from './rrtSketch';
-import { useDebounce } from '../../../customhooks/debounce';
+import bangBangRRTSketchFunction from './bangBangRRTSketch';
 import { preparePayload } from './axiosHelpers';
 import ReactLoading from 'react-loading';
 import useCanvasSize from '../../../customhooks/useCanvasSize';
@@ -24,6 +23,9 @@ const SHAPES = [
 ];
 
 const initialSketchState = {
+  carLength: 10,
+  carSpeed: 1,
+  carColor: '#ff0000',
   obstacles: [],
   startPoint: {
     x: 100,
@@ -41,7 +43,7 @@ const initialSketchState = {
     maxRadius: 100,
     step: 1,
   },
-  stepSize: 15,
+  stepSize: 30,
   circle: {
     radius: 20,
     minRadius: 1,
@@ -74,7 +76,7 @@ const initialSketchState = {
  * }
  * @returns
  */
-export default function RRTVisualization() {
+export default function BangBangRRTVisualization() {
   /*----------------------------------------------------------------------------
   SET UP STATE AND REFS
   --------------------------------------------------------------------------- */
@@ -84,9 +86,13 @@ export default function RRTVisualization() {
   const [isLoading, setIsLoading] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(true);
   const canvasSize = useCanvasSize();
-  // Chose not to debounce because it caused a size delay in rendering that looked bad when the sketch was redrawn
-  // const debouncedSketchState = useDebounce(sketchState, 250);
   const ref = useRef();
+  const car_ref = useRef({
+    x: sketchState.startPoint.x,
+    y: sketchState.startPoint.y,
+    theta: 0,
+    phi: 0,
+  });
 
   //   Resize the p5 canvas when the screen size changes
   useEffect(() => {
@@ -121,13 +127,15 @@ export default function RRTVisualization() {
   --------------------------------------------------------------------------- */
   // This is the effect in charge of managing the p5 sketch
   useEffect(() => {
+    // console.log(car_ref.current)
     let myp5 = new p5(
-      rrtSketchFunction(
+      bangBangRRTSketchFunction(
         state,
         sketchState,
         setSketchState,
         menuValue,
-        shouldAnimate
+        shouldAnimate,
+        car_ref
       ),
       ref.current
     );

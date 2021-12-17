@@ -1,9 +1,12 @@
+import Car from '../../../carVisualizer/car';
+import CarManager from '../../../carVisualizer/carManager';
 export default function rrtSketchFunction(
   rrtState,
   sketchState,
   setSketchState,
   menuValue,
-  shouldAnimate
+  shouldAnimate,
+  car_ref
 ) {
   return (p5) => {
     // Define some sketch constants
@@ -28,6 +31,20 @@ export default function rrtSketchFunction(
       }
     }
     let goalPathDrawingIndex = goalPathNodes.length - 1;
+
+    let car = new Car(
+      car_ref.current.x,
+      car_ref.current.y,
+      car_ref.current.theta,
+      car_ref.current.phi,
+      sketchState.carLength,
+      sketchState.carColor,
+      car_ref,
+      p5
+    );
+    car.setSpeed(0);
+
+    const carManager = new CarManager(car, sketchState, p5);
 
     /**
      * A Method to draw all of the points in the rrtState object
@@ -163,6 +180,9 @@ export default function rrtSketchFunction(
             ...prev,
             startPoint: { ...prev.startPoint, x: p5.mouseX, y: p5.mouseY },
           }));
+          car_ref.current.x = p5.mouseX;
+          car_ref.current.y = p5.mouseY;
+          console.log(car_ref);
           break;
 
         case 'Goal Node':
@@ -183,15 +203,13 @@ export default function rrtSketchFunction(
       const canvas = p5.createCanvas(W, H);
       // p5.frameRate(1)
       canvas.mousePressed(handleMouseClicked);
-      p5.background("#747474");
+      p5.background('#747474');
 
-      if (sketchState)
-      {
+      if (sketchState) {
         // Draw Start and Goal as green
-        drawStartandGoal()
+        drawStartandGoal();
       }
       if (rrtState) {
-        
         // Draw the rrt graph
         if (!shouldAnimate) {
           drawRRTPoints();
@@ -210,6 +228,7 @@ export default function rrtSketchFunction(
         animateRRTExploration();
         animateRRTGoalPath();
       }
+      car.run();
     }
 
     // Set all of the p5 objects important functions here
