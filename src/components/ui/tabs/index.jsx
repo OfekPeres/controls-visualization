@@ -31,7 +31,7 @@ function Tab({ text, isSelected, setState, index }) {
 
 export default function Tabs({ tabValues, setTabValues }) {
   return (
-    <div className="flex lg:justify-center w-full overflow-x-auto py-1">
+    <div className="flex sm:justify-center w-full overflow-x-auto py-1">
       {tabValues.values.map((tabValue, index) => {
         return (
           <Tab

@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import p5 from 'p5';
 import axios from 'axios';
 import ListBox from '../../ui/listbox';
-import bangBangRRTSketchFunction from './bangBangRRTSketch';
+import bfsSketchFunction from './bfsSketch';
+import { useDebounce } from '../../../customhooks/debounce';
 import { preparePayload } from './axiosHelpers';
 import ReactLoading from 'react-loading';
 import useCanvasSize from '../../../customhooks/useCanvasSize';
@@ -23,9 +24,6 @@ const SHAPES = [
 ];
 
 const initialSketchState = {
-  carLength: 10,
-  carSpeed: 1,
-  carColor: '#ff0000',
   obstacles: [],
   startPoint: {
     x: 100,
@@ -43,7 +41,7 @@ const initialSketchState = {
     maxRadius: 100,
     step: 1,
   },
-  stepSize: 40,
+  stepSize: 15,
   circle: {
     radius: 20,
     minRadius: 1,
@@ -76,7 +74,7 @@ const initialSketchState = {
  * }
  * @returns
  */
-export default function BangBangRRTVisualization() {
+export default function BFSVisualization() {
   /*----------------------------------------------------------------------------
   SET UP STATE AND REFS
   --------------------------------------------------------------------------- */
@@ -84,15 +82,11 @@ export default function BangBangRRTVisualization() {
   const [sketchState, setSketchState] = useState(initialSketchState);
   const [menuValue, setMenuValue] = useState('circle');
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldAnimate, setShouldAnimate] = useState(0);
+  const [shouldAnimate, setShouldAnimate] = useState(true);
   const canvasSize = useCanvasSize();
+  // Chose not to debounce because it caused a size delay in rendering that looked bad when the sketch was redrawn
+  // const debouncedSketchState = useDebounce(sketchState, 250);
   const ref = useRef();
-  const car_ref = useRef({
-    x: sketchState.startPoint.x,
-    y: sketchState.startPoint.y,
-    theta: 0,
-    phi: 0,
-  });
 
   //   Resize the p5 canvas when the screen size changes
   useEffect(() => {
@@ -106,20 +100,20 @@ export default function BangBangRRTVisualization() {
   /*----------------------------------------------------------------------------
   GET INITIAL RRT Example MAP WHEN THE PAGE LOADS 
   --------------------------------------------------------------------------- */
-  // useEffect(() => {
-  //   // getRRTMap()
-  // }, []);
+  useEffect(() => {
+    getBFSMap()
+  }, []);
 
   /*----------------------------------------------------------------------------
   Send the user defined map to the backend to solve it!
   --------------------------------------------------------------------------- */
-  async function getRRTMap() {
-    setShouldAnimate(0);
+  async function getBFSMap() {
     if (isLoading) return;
     setIsLoading(true);
-    const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
+    const url = `${process.env.GATSBY_BACKEND_URL}/bfs`;
     const payload = await axios.post(url, preparePayload(sketchState));
     setIsLoading(false);
+    setShouldAnimate(true);
     setState(payload.data);
   }
   /*----------------------------------------------------------------------------
@@ -127,25 +121,22 @@ export default function BangBangRRTVisualization() {
   --------------------------------------------------------------------------- */
   // This is the effect in charge of managing the p5 sketch
   useEffect(() => {
-    // console.log(car_ref.current)
     let myp5 = new p5(
-      bangBangRRTSketchFunction(
+      bfsSketchFunction(
         state,
         sketchState,
         setSketchState,
         menuValue,
-        shouldAnimate,
-        setShouldAnimate,
-        car_ref
+        shouldAnimate
       ),
       ref.current
     );
-    // setShouldAnimate(false);
+    setShouldAnimate(false);
     // Return a function that deletes the canvas so we don't have duplicates
     return () => {
       myp5.remove();
     };
-  }, [state, sketchState, menuValue, shouldAnimate]);
+  }, [state, sketchState, menuValue]);
 
   /*----------------------------------------------------------------------------
   HELPER FUNCTIONS TO ORGANIZE OUR SET STATE FOR THE DIFFERENT SLIDERS
@@ -211,49 +202,21 @@ export default function BangBangRRTVisualization() {
       <div className="text-black flex flex-col items-center">
         {/* Explanation of RRT Goes Here */}
         <div className="p-4">
-          <div className="flex flex-col">
-            <div>
-              <h1 className="text-5xl font-bold text-gray-800 p-6">
-                Bang Bang + RRT</h1>
-            </div>
-
-            <div>
-              <h2 className="text-l text-gray-800 p-6">
-              <span className="font-bold underline">Click on the screen</span> to define the start, end, 
-              and obstacles on the map by (also using the drop down and slider below).  </h2>
-            </div>
-
-
-            <div>
-              <h2 className="text-l text-gray-800 p-6">
-                Now we can combine mapping and control alogirhtms - so the car really can find its own way from start to finish!
-              </h2>
-            </div>
-
-
-
-          </div>
-
-
-
-
+          <h1 className="text-4xl">User Explanation Text</h1>
         </div>
         {/* User Input Code Starts Here */}
         <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
         <div className="flex justify-center items-center space-x-3">
           <button
             className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
-            onClick={() => getRRTMap()}
+            onClick={() => getBFSMap()}
             disabled={isLoading}
           >
             Generate the RRT Map!
           </button>
           <button
             className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
-            onClick={() => {
-              setSketchState({ ...sketchState, obstacles: [] });
-              setShouldAnimate(2)
-            }}
+            onClick={() => setSketchState({ ...sketchState, obstacles: [] })}
           >
             Clear Obstacles (X)
           </button>

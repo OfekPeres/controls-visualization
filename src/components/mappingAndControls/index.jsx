@@ -22,7 +22,7 @@ export default function MappingandControlAlgorithms() {
   return (
     <div className="flex flex-col items-center text-gray-800">
       <h1 className="text-xs lg:text-xl text-gray-800 font-bold">
-        Select a Control Algorithm!
+        Select a Control and a Mapping Algorithm!
       </h1>
       <div className='flex justify-center space-x-4'>
         <ListBox
