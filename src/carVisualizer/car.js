@@ -41,7 +41,6 @@ class Car {
         phi: this.phi,
       };
     }
-
   }
 
   /**
@@ -125,8 +124,8 @@ class Car {
     this.p5.strokeWeight(1);
     this.p5.fill(180);
     this.p5.rotate(-this.p5.PI / 2);
-    this.p5.line(0, 0, 0, this.car_len/2);
-    this.p5.translate(0, this.car_len/2)
+    this.p5.line(0, 0, 0, this.car_len / 2);
+    this.p5.translate(0, this.car_len / 2);
     this.p5.triangle(-5, 0, 0, 5, 5, 0);
     this.p5.pop();
   }
@@ -157,12 +156,12 @@ class Car {
    */
   move() {
     // Update velocity, theta and location
+
     this.vel.x = this.speed * Math.cos(this.theta);
     this.vel.y = this.speed * Math.sin(this.theta);
     this.theta_dot = (this.speed * Math.tan(this.phi)) / this.car_len;
     this.theta += this.theta_dot;
     this.loc.add(this.vel);
-    // this.dont_crash();
   }
 
   // Width and height (600) are hard-coded magic numbers atm.
@@ -189,40 +188,37 @@ class Car {
   }
 
   track(targetX, targetY, dist2goal) {
-    if (dist2goal == null || dist2goal == undefined)
-    {
-      dist2goal = 10
+    if (dist2goal == null || dist2goal == undefined) {
+      dist2goal = 10;
     }
-    for (let i = 0; i <20; i++)
-    {
-
+    for (let i = 0; i < 20; i++) {
       const deltaX = targetX - this.loc.x;
       const deltaY = targetY - this.loc.y;
-      
+
       const heading = this.p5.createVector(
         this.p5.cos(this.theta),
         this.p5.sin(this.theta)
-        );
-        const car2goal = this.p5.createVector(deltaX, deltaY).normalize();
-        
-        const thetaError = heading.angleBetween(car2goal);
-        
-        if (thetaError > 0) {
-          this.phi = this.max_steer;
-        } else if (thetaError < 0) {
-          this.phi = -this.max_steer;
-        } else {
-          this.phi = 0;
-        }
-        
-        this.speed = 0.1;
-        // if (Math.abs(deltaX) < dist2goal && Math.abs(deltaY) < dist2goal) {
-        //   this.speed = 0;
-        // } else {
-        //   this.speed = 0.1;
-        // }
-        this.move()
+      );
+      const car2goal = this.p5.createVector(deltaX, deltaY).normalize();
+
+      const thetaError = heading.angleBetween(car2goal);
+
+      if (thetaError > 0) {
+        this.phi = this.max_steer;
+      } else if (thetaError < 0) {
+        this.phi = -this.max_steer;
+      } else {
+        this.phi = 0;
       }
+
+      this.speed = 0.1;
+      // if (Math.abs(deltaX) < dist2goal && Math.abs(deltaY) < dist2goal) {
+      //   this.speed = 0;
+      // } else {
+      //   this.speed = 0.1;
+      // }
+      this.move();
+    }
   }
 
   drawImpossibleRegion() {

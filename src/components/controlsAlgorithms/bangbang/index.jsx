@@ -5,9 +5,9 @@ import bangbangSketch from './bangbangSketch';
 import useCanvasSize from '../../../customhooks/useCanvasSize';
 
 const initialSketchState = {
-  carLength: 10,
+  carLength: 50,
   carSpeed: 1,
-  carColor: '#ee6352',
+  carColor: '#ff0000',
   positionWayPoints: [],
   canvasWidth: 600,
   canvasHeight: 600,

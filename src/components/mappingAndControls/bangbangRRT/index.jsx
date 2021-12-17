@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import p5 from 'p5';
 import axios from 'axios';
 import ListBox from '../../ui/listbox';
-import rrtSketchFunction from './rrtSketch';
-import { useDebounce } from '../../../customhooks/debounce';
+import bangBangRRTSketchFunction from './bangBangRRTSketch';
 import { preparePayload } from './axiosHelpers';
 import ReactLoading from 'react-loading';
 import useCanvasSize from '../../../customhooks/useCanvasSize';
@@ -24,6 +23,9 @@ const SHAPES = [
 ];
 
 const initialSketchState = {
+  carLength: 10,
+  carSpeed: 1,
+  carColor: '#ff0000',
   obstacles: [],
   startPoint: {
     x: 100,
@@ -41,7 +43,7 @@ const initialSketchState = {
     maxRadius: 100,
     step: 1,
   },
-  stepSize: 15,
+  stepSize: 40,
   circle: {
     radius: 20,
     minRadius: 1,
@@ -74,7 +76,7 @@ const initialSketchState = {
  * }
  * @returns
  */
-export default function RRTVisualization() {
+export default function BangBangRRTVisualization() {
   /*----------------------------------------------------------------------------
   SET UP STATE AND REFS
   --------------------------------------------------------------------------- */
@@ -82,11 +84,15 @@ export default function RRTVisualization() {
   const [sketchState, setSketchState] = useState(initialSketchState);
   const [menuValue, setMenuValue] = useState('circle');
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldAnimate, setShouldAnimate] = useState(true);
+  const [shouldAnimate, setShouldAnimate] = useState(0);
   const canvasSize = useCanvasSize();
-  // Chose not to debounce because it caused a size delay in rendering that looked bad when the sketch was redrawn
-  // const debouncedSketchState = useDebounce(sketchState, 250);
   const ref = useRef();
+  const car_ref = useRef({
+    x: sketchState.startPoint.x,
+    y: sketchState.startPoint.y,
+    theta: 0,
+    phi: 0,
+  });
 
   //   Resize the p5 canvas when the screen size changes
   useEffect(() => {
@@ -108,12 +114,12 @@ export default function RRTVisualization() {
   Send the user defined map to the backend to solve it!
   --------------------------------------------------------------------------- */
   async function getRRTMap() {
+    setShouldAnimate(0);
     if (isLoading) return;
     setIsLoading(true);
     const url = `${process.env.GATSBY_BACKEND_URL}/rrt`;
     const payload = await axios.post(url, preparePayload(sketchState));
     setIsLoading(false);
-    setShouldAnimate(true);
     setState(payload.data);
   }
   /*----------------------------------------------------------------------------
@@ -121,22 +127,25 @@ export default function RRTVisualization() {
   --------------------------------------------------------------------------- */
   // This is the effect in charge of managing the p5 sketch
   useEffect(() => {
+    // console.log(car_ref.current)
     let myp5 = new p5(
-      rrtSketchFunction(
+      bangBangRRTSketchFunction(
         state,
         sketchState,
         setSketchState,
         menuValue,
-        shouldAnimate
+        shouldAnimate,
+        setShouldAnimate,
+        car_ref
       ),
       ref.current
     );
-    setShouldAnimate(false);
+    // setShouldAnimate(false);
     // Return a function that deletes the canvas so we don't have duplicates
     return () => {
       myp5.remove();
     };
-  }, [state, sketchState, menuValue]);
+  }, [state, sketchState, menuValue, shouldAnimate]);
 
   /*----------------------------------------------------------------------------
   HELPER FUNCTIONS TO ORGANIZE OUR SET STATE FOR THE DIFFERENT SLIDERS
@@ -201,30 +210,29 @@ export default function RRTVisualization() {
       {/* IMPORTANT NOTE: REMEMBER TO SET THE WIDTH AND HEIGHT OF THE CANVAS ON THE DIV OR IT WILL HAVE STRANGE SCROLLING BEHAVIOR!!!!!!!!! */}
       <div className="text-black flex flex-col items-center">
         {/* Explanation of RRT Goes Here */}
-
+        <div className="p-4">
+          <h1 className="text-4xl">User Explanation Text</h1>
+        </div>
         {/* User Input Code Starts Here */}
-
-        <div class="flex flex-col">
-
-        <div>
-            <h1 className="text-5xl font-bold text-gray-800 p-6">
-                Mapping</h1>
+        <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
+        <div className="flex justify-center items-center space-x-3">
+          <button
+            className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
+            onClick={() => getRRTMap()}
+            disabled={isLoading}
+          >
+            Generate the RRT Map!
+          </button>
+          <button
+            className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
+            onClick={() => {
+              setSketchState({ ...sketchState, obstacles: [] });
+              setShouldAnimate(2)
+            }}
+          >
+            Clear Obstacles (X)
+          </button>
         </div>
-
-        <div>
-            <h2 className="text-l text-gray-800 p-6">
-                Use the drop down menu and slider below to select things to place, and then <span className="font-bold underline">click on the screen</span> to place them! 
-            </h2>
-        </div>
-
-
-        <div>
-            <h2 className="text-l text-gray-800 p-6">
-                Once you've placed a start node and end node, and any obstacles you'd like, choose the mapping algorithm you want to visulaise, then generate the map!
-            </h2>
-        </div>
-
-
         <div className="flex flex-col">
           {
             {
@@ -283,27 +291,6 @@ export default function RRTVisualization() {
             }[menuValue.value]
           }
         </div>
-
-
-
-    </div>
-        <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
-        <div className="flex justify-center items-center space-x-3">
-          <button
-            className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
-            onClick={() => getRRTMap()}
-            disabled={isLoading}
-          >
-            Generate Map!
-          </button>
-          <button
-            className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
-            onClick={() => setSketchState({ ...sketchState, obstacles: [] })}
-          >
-            Clear Obstacles (X)
-          </button>
-        </div>
-        
       </div>
       {/* User Input Code Ends Here */}
       {/* This repositions the canvas */}

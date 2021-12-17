@@ -1,9 +1,13 @@
+import Car from '../../../carVisualizer/car';
+import CarManager from '../../../carVisualizer/carManager';
 export default function rrtSketchFunction(
   rrtState,
   sketchState,
   setSketchState,
   menuValue,
-  shouldAnimate
+  shouldAnimate,
+  setShouldAnimate,
+  car_ref
 ) {
   return (p5) => {
     // Define some sketch constants
@@ -28,6 +32,21 @@ export default function rrtSketchFunction(
       }
     }
     let goalPathDrawingIndex = goalPathNodes.length - 1;
+
+    let car = new Car(
+      car_ref.current.x,
+      car_ref.current.y,
+      car_ref.current.theta,
+      car_ref.current.phi,
+      sketchState.carLength,
+      sketchState.carColor,
+      car_ref,
+      p5
+    );
+    car.setSpeed(0);
+
+    const carManager = new CarManager(car, sketchState, p5);
+
 
     /**
      * A Method to draw all of the points in the rrtState object
@@ -88,6 +107,8 @@ export default function rrtSketchFunction(
       p5.line(point.x, point.y, nextNode.x, nextNode.y);
       if (goalPathDrawingIndex > 1) {
         goalPathDrawingIndex--;
+      } else {
+        setShouldAnimate(1)
       }
     }
 
@@ -163,6 +184,8 @@ export default function rrtSketchFunction(
             ...prev,
             startPoint: { ...prev.startPoint, x: p5.mouseX, y: p5.mouseY },
           }));
+          car_ref.current.x = p5.mouseX;
+          car_ref.current.y = p5.mouseY;
           break;
 
         case 'Goal Node':
@@ -188,11 +211,13 @@ export default function rrtSketchFunction(
       if (sketchState) {
         // Draw Start and Goal as green
         drawStartandGoal();
+        car.run();
       }
       if (rrtState) {
         // Draw the rrt graph
-        if (!shouldAnimate) {
+        if (shouldAnimate == 2) {
           drawRRTPoints();
+
         }
       }
       //   Draw Obstacles in red
@@ -203,10 +228,26 @@ export default function rrtSketchFunction(
      * The draw function for the sketch
      */
 
+    const start2goalPath = goalPathNodes.reverse();
     function draw() {
-      if (shouldAnimate && rrtState && sketchState) {
+      if (shouldAnimate == 2) {
+        return;
+      }
+      if (shouldAnimate == 0 && rrtState && sketchState) {
         animateRRTExploration();
         animateRRTGoalPath();
+        car.run();
+      }
+      if (shouldAnimate == 1 && rrtState && sketchState) {
+        p5.background('#747474');
+        drawObstacles();
+        drawStartandGoal();
+        drawRRTPoints();
+        carManager.pidTrackPositionWayPoints(start2goalPath);
+      }
+
+      if (carManager.reachedGoal) {
+        setShouldAnimate(2);
       }
     }
 
