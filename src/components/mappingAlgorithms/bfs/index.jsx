@@ -100,9 +100,9 @@ export default function BFSVisualization() {
   /*----------------------------------------------------------------------------
   GET INITIAL RRT Example MAP WHEN THE PAGE LOADS 
   --------------------------------------------------------------------------- */
-  useEffect(() => {
-    getBFSMap()
-  }, []);
+  // useEffect(() => {
+  //   getBFSMap();
+  // }, []);
 
   /*----------------------------------------------------------------------------
   Send the user defined map to the backend to solve it!
@@ -202,7 +202,25 @@ export default function BFSVisualization() {
       <div className="text-black flex flex-col items-center">
         {/* Explanation of RRT Goes Here */}
         <div className="p-4">
-          <h1 className="text-4xl">User Explanation Text</h1>
+          <div>
+            <h1 className="text-5xl font-bold text-gray-800 p-6">Breadth First Search</h1>
+          </div>
+
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              Use the drop down menu and slider below to select things to place,
+              and then{' '}
+              <span className="font-bold underline">click on the screen</span>{' '}
+              to place them!
+            </h2>
+          </div>
+
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              Once you've placed a start node and end node, and any obstacles
+              you'd like, then generate the map!
+            </h2>
+          </div>
         </div>
         {/* User Input Code Starts Here */}
         <ListBox options={SHAPES} updateParentSelection={setMenuValue} />

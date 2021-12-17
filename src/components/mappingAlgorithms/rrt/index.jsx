@@ -205,88 +205,87 @@ export default function RRTVisualization() {
         {/* User Input Code Starts Here */}
 
         <div class="flex flex-col">
-
-        <div>
+          <div>
             <h1 className="text-5xl font-bold text-gray-800 p-6">
-                Mapping</h1>
-        </div>
+              Rapidly Exploring Random Trees
+            </h1>
+          </div>
 
-        <div>
+          <div>
             <h2 className="text-l text-gray-800 p-6">
-                Use the drop down menu and slider below to select things to place, and then <span className="font-bold underline">click on the screen</span> to place them! 
+              Use the drop down menu and slider below to select things to place,
+              and then{' '}
+              <span className="font-bold underline">click on the screen</span>{' '}
+              to place them!
             </h2>
-        </div>
+          </div>
 
-
-        <div>
+          <div>
             <h2 className="text-l text-gray-800 p-6">
-                Once you've placed a start node and end node, and any obstacles you'd like, choose the mapping algorithm you want to visualise, then generate the map!
+              Once you've placed a start node and end node, and any obstacles
+              you'd like, generate the map!
             </h2>
-        </div>
+          </div>
 
-
-        <div className="flex flex-col">
-          {
+          <div className="flex flex-col">
             {
-              'Start Node': (
-                <StartNodeSlider
-                  value={sketchState.startPoint.radius}
-                  setValue={setStartPointRadius}
-                  min={sketchState.startPoint.minRadius}
-                  max={sketchState.startPoint.maxRadius}
-                  step={sketchState.startPoint.step}
-                  color={'#0079D9'}
-                ></StartNodeSlider>
-              ),
-              'Goal Node': (
-                <GoalNodeSlider
-                  value={sketchState.goalPoint.radius}
-                  setValue={setGoalPointRadius}
-                  min={sketchState.goalPoint.minRadius}
-                  max={sketchState.goalPoint.maxRadius}
-                  step={sketchState.goalPoint.step}
-                  color={'#0079D9'}
-                ></GoalNodeSlider>
-              ),
-              Rectangle: (
-                <RectangleSizeSlider
-                  width={sketchState.rectangle.width}
-                  height={sketchState.rectangle.height}
-                  setWidth={setRectangleWidth}
-                  setHeight={setRectangleHeight}
-                  min={sketchState.rectangle.minLength}
-                  max={sketchState.rectangle.maxLength}
-                  step={sketchState.rectangle.step}
-                  color={'#0079D9'}
-                ></RectangleSizeSlider>
-              ),
-              Circle: (
-                <CircleRadiusSlider
-                  value={sketchState.circle.radius}
-                  setValue={setCircleRadius}
-                  min={sketchState.circle.minRadius}
-                  max={sketchState.circle.maxRadius}
-                  step={sketchState.circle.step}
-                  color={'#0079D9'}
-                ></CircleRadiusSlider>
-              ),
-              'Step Size': (
-                <StepSizeRadiusSlider
-                  value={sketchState.stepSize}
-                  setValue={setStepSize}
-                  min={10}
-                  max={100}
-                  step={1}
-                  color={'#0079D9'}
-                ></StepSizeRadiusSlider>
-              ),
-            }[menuValue.value]
-          }
+              {
+                'Start Node': (
+                  <StartNodeSlider
+                    value={sketchState.startPoint.radius}
+                    setValue={setStartPointRadius}
+                    min={sketchState.startPoint.minRadius}
+                    max={sketchState.startPoint.maxRadius}
+                    step={sketchState.startPoint.step}
+                    color={'#0079D9'}
+                  ></StartNodeSlider>
+                ),
+                'Goal Node': (
+                  <GoalNodeSlider
+                    value={sketchState.goalPoint.radius}
+                    setValue={setGoalPointRadius}
+                    min={sketchState.goalPoint.minRadius}
+                    max={sketchState.goalPoint.maxRadius}
+                    step={sketchState.goalPoint.step}
+                    color={'#0079D9'}
+                  ></GoalNodeSlider>
+                ),
+                Rectangle: (
+                  <RectangleSizeSlider
+                    width={sketchState.rectangle.width}
+                    height={sketchState.rectangle.height}
+                    setWidth={setRectangleWidth}
+                    setHeight={setRectangleHeight}
+                    min={sketchState.rectangle.minLength}
+                    max={sketchState.rectangle.maxLength}
+                    step={sketchState.rectangle.step}
+                    color={'#0079D9'}
+                  ></RectangleSizeSlider>
+                ),
+                Circle: (
+                  <CircleRadiusSlider
+                    value={sketchState.circle.radius}
+                    setValue={setCircleRadius}
+                    min={sketchState.circle.minRadius}
+                    max={sketchState.circle.maxRadius}
+                    step={sketchState.circle.step}
+                    color={'#0079D9'}
+                  ></CircleRadiusSlider>
+                ),
+                'Step Size': (
+                  <StepSizeRadiusSlider
+                    value={sketchState.stepSize}
+                    setValue={setStepSize}
+                    min={10}
+                    max={100}
+                    step={1}
+                    color={'#0079D9'}
+                  ></StepSizeRadiusSlider>
+                ),
+              }[menuValue.value]
+            }
+          </div>
         </div>
-
-
-
-    </div>
         <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
         <div className="flex justify-center items-center space-x-3">
           <button
@@ -303,7 +302,6 @@ export default function RRTVisualization() {
             Clear Obstacles (X)
           </button>
         </div>
-        
       </div>
       {/* User Input Code Ends Here */}
       {/* This repositions the canvas */}

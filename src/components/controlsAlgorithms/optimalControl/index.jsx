@@ -100,91 +100,59 @@ function DubinsPath() {
     }));
   }
   return (
-
-
-
     <div className="grid grid-cols-1 lg:grid-cols-2">
       {/* Text and Buttons go here */}
       <div className=" flex flex-col items-center">
+        <div className="flex flex-col">
+          <div>
+            <h1 className="text-5xl font-bold text-gray-800 p-6">
+              Optimal Controls
+            </h1>
+          </div>
 
-      <div className="flex flex-col">
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              <span className="font-bold underline">Click on the screen</span>{' '}
+              to set target points, and use the slider to change the orientation
+              of each target.
+            </h2>
+          </div>
 
-        <div>
-          <h1 className="text-5xl font-bold text-gray-800 p-6">
-            Optimal Controls</h1>
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              Optimal controls enables perfect tracking of points, with both
+              location and orientation! When you've set the points you want,
+              click the{' '}
+              <span className="font-bold underline">
+                {' '}
+                Calculate Dubin's Path{' '}
+              </span>{' '}
+              button, and then the{' '}
+              <span className="font-bold underline">
+                {' '}
+                Run Dubin's Path{' '}
+              </span>{' '}
+              button!
+            </h2>
+          </div>
         </div>
 
-        <div>
-          <h2 className="text-l text-gray-800 p-6">
-            <span className="font-bold underline">Click on the screen</span> to set target points, and 
-            use the slider to change the orientation of each target. 
-          </h2>
-        </div>
-
-        <div>
-          <h2 className="text-l text-gray-800 p-6">
-            Optimal controls enables perfect tracking of points, with both locaiton and orientation!
-            When you've set the points you want, click
-             the <span className="font-bold underline"> Calculate Dubin's Path </span> button, and then 
-             the <span className="font-bold underline"> Run Dubin's Path </span> button! 
-          </h2>
-        </div>
-
-      </div>
-
-
-
-      <div className="flex flex-col items-center justify-center text-black">
-        <div className="flex justify-center items-center space-x-3">
-          <button
-            className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
-            onClick={() => getDubinsPath()}
-            disabled={isLoading || sketchState.poseWayPoints.length < 1}
-          >
-            Calculate Dubins Path!
-          </button>
-          <button
-            className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
-            onClick={() => {
-              setSketchState((prev) => ({
-                ...prev,
-                controlMode: 'dubins',
-              }));
-            }}
-            disabled={isLoading || sketchState.poseWayPoints.length < 1}
-          >
-            Run Dubins Path!
-          </button>
-          <button
-            className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
-            onClick={() => {
-              setSketchState({
-                ...sketchState,
-                poseWayPoints: [],
-                positionWayPoints: [],
-                hasControlInputs: false,
-              });
-
-              setState((prev) => ({ ...prev, waypoints: null, paths: null }));
-            }}
-          >
-            Clear Waypoints (X)
-          </button>
-        </div>
-        <div className="flex flex-col items-center justify-center text-lg">
-          <h1 className="text-3xl font-bold">Customize your waypoints!</h1>
-          <h3>
-            Set the orientation of your waypoint: {sketchState.selectedCarTheta}
-          </h3>
-          <Slider
-            value={sketchState.selectedCarTheta}
-            setValue={handleSelectedCarThetaUpdate}
-            min={0}
-            max={360}
-            step={1}
-            color={'blue'}
-          />
-          {/* <h1 className="text-3xl font-bold">Customize your car!</h1>
+        <div className="flex flex-col items-center justify-center text-black">
+          <div className="flex flex-col items-center justify-center text-lg">
+            <h1 className="text-3xl font-bold">Customize your waypoints!</h1>
+            <h3>
+              Set the orientation of your waypoint:{' '}
+              {sketchState.selectedCarTheta}
+            </h3>
+            <Slider
+              value={sketchState.selectedCarTheta}
+              setValue={handleSelectedCarThetaUpdate}
+              min={0}
+              max={360}
+              step={1}
+              color={'blue'}
+            />
+            {/* <h1 className="text-3xl font-bold">Customize your car!</h1>
           <h3>Set the Length of your car: {sketchState.carLength}</h3>
           <Slider
             value={sketchState.carLength}
@@ -215,7 +183,44 @@ function DubinsPath() {
               setSketchState({ ...sketchState, carColor: e.target.value })
             }
           /> */}
-        </div>
+          </div>
+
+          <div className="flex justify-center items-center space-x-3">
+            <button
+              className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
+              onClick={() => getDubinsPath()}
+              disabled={isLoading || sketchState.poseWayPoints.length < 1}
+            >
+              Calculate Dubins Path!
+            </button>
+            <button
+              className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
+              onClick={() => {
+                setSketchState((prev) => ({
+                  ...prev,
+                  controlMode: 'dubins',
+                }));
+              }}
+              disabled={isLoading || sketchState.poseWayPoints.length < 1}
+            >
+              Run Dubins Path!
+            </button>
+            <button
+              className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
+              onClick={() => {
+                setSketchState({
+                  ...sketchState,
+                  poseWayPoints: [],
+                  positionWayPoints: [],
+                  hasControlInputs: false,
+                });
+
+                setState((prev) => ({ ...prev, waypoints: null, paths: null }));
+              }}
+            >
+              Clear Waypoints (X)
+            </button>
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center">
