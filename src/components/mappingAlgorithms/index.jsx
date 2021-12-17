@@ -11,7 +11,7 @@ export default function MappingAlgorithms() {
     useState('RRT');
   return (
     <div className="flex flex-col items-center text-gray-800">
-      <p className="text-xs lg:text-xl text-gray-800 font-bold">Select a Mapping Algorithm!</p>
+      <p className="text-xs lg:text-xl text-gray-800 font-bold p-2">Select a Mapping Algorithm!</p>
       <MyListbox
         options={MAPPING_ALGORITHM_OPTIONS}
         updateParentSelection={setSelectedMappingAlgorithm}

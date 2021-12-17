@@ -201,26 +201,30 @@ export default function RRTVisualization() {
       {/* IMPORTANT NOTE: REMEMBER TO SET THE WIDTH AND HEIGHT OF THE CANVAS ON THE DIV OR IT WILL HAVE STRANGE SCROLLING BEHAVIOR!!!!!!!!! */}
       <div className="text-black flex flex-col items-center">
         {/* Explanation of RRT Goes Here */}
-        <div className="p-4">
-          <h1 className="text-4xl">User Explanation Text</h1>
-        </div>
+
         {/* User Input Code Starts Here */}
-        <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
-        <div className="flex justify-center items-center space-x-3">
-          <button
-            className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
-            onClick={() => getRRTMap()}
-            disabled={isLoading}
-          >
-            Generate the RRT Map!
-          </button>
-          <button
-            className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
-            onClick={() => setSketchState({ ...sketchState, obstacles: [] })}
-          >
-            Clear Obstacles (X)
-          </button>
+
+        <div class="flex flex-col">
+
+        <div>
+            <h1 className="text-5xl font-bold text-gray-800 p-6">
+                Mapping</h1>
         </div>
+
+        <div>
+            <h2 className="text-l text-gray-800 p-6">
+                Use the drop down menu and slider below to select things to place, and then <span className="font-bold underline">click on the screen</span> to place them! 
+            </h2>
+        </div>
+
+
+        <div>
+            <h2 className="text-l text-gray-800 p-6">
+                Once you've placed a start node and end node, and any obstacles you'd like, choose the mapping algorithm you want to visulaise, then generate the map!
+            </h2>
+        </div>
+
+
         <div className="flex flex-col">
           {
             {
@@ -279,6 +283,27 @@ export default function RRTVisualization() {
             }[menuValue.value]
           }
         </div>
+
+
+
+    </div>
+        <ListBox options={SHAPES} updateParentSelection={setMenuValue} />
+        <div className="flex justify-center items-center space-x-3">
+          <button
+            className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:cursor-not-allowed"
+            onClick={() => getRRTMap()}
+            disabled={isLoading}
+          >
+            Generate Map!
+          </button>
+          <button
+            className="bg-red-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-red-400 hover:ring hover:ring-red-400"
+            onClick={() => setSketchState({ ...sketchState, obstacles: [] })}
+          >
+            Clear Obstacles (X)
+          </button>
+        </div>
+        
       </div>
       {/* User Input Code Ends Here */}
       {/* This repositions the canvas */}

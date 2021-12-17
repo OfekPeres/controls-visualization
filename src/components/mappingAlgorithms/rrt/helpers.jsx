@@ -18,7 +18,7 @@ function StartNodeSlider({ value, setValue, min, max, step, color }) {
 
 function GoalNodeSlider({ value, setValue, min, max, step, color }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <p>The Goal Area Radius is: {value}</p>
       <Slider
         value={value}
@@ -34,7 +34,7 @@ function GoalNodeSlider({ value, setValue, min, max, step, color }) {
 
 function CircleRadiusSlider({ value, setValue, min, max, step, color }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <p>Set the radius of the circle obstacles: {value}</p>
       <Slider
         value={value}
@@ -50,7 +50,7 @@ function CircleRadiusSlider({ value, setValue, min, max, step, color }) {
 
 function StepSizeRadiusSlider({ value, setValue, min, max, step, color }) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <p>Set the max step size for the RRT algorithm: {value}</p>
       <Slider
         value={value}

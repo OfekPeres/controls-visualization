@@ -11,7 +11,7 @@ export default function ControlAlgorithms() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('Bang Bang');
   return (
     <div className="flex flex-col items-center">
-      <h1 className='text-xs lg:text-xl text-gray-800 font-bold'>Select a Control Algorithm!</h1>
+      <h1 className='text-xs lg:text-xl text-gray-800 font-bold p-2'>Select a Control Algorithm!</h1>
       <ListBox
         options={CONTROL_ALGORITHM_OPTIONS}
         updateParentSelection={setSelectedAlgorithm}

@@ -48,8 +48,41 @@ export default function BangBang() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 ">
       {/* <h1 className="text-black text-lg">{JSON.stringify(windowSize)}</h1> */}
-      <div className=" text-blue-800 flex flex-col items-center">
-        <h1 className="text-6xl">Bang Bang Component!</h1>
+      <div className=" flex flex-col items-center">
+
+        <div className="flex flex-col">
+
+          <div>
+            <h1 className="text-5xl font-bold text-gray-800 p-6">
+              Autonomous Controls</h1>
+          </div>
+          
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              <span className="font-bold underline">Click on the screen</span> to set target points.
+            </h2>
+          </div>
+
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              We want the car to hit each of these points autonomously. We implemented three ways of doing this, 
+              Bang-Bang, PID and optimal control. <span className="font-bold underline">[include link to documentation?]</span>
+              When you've set the points you want and selected the control you want to see from the drop down, 
+              and click the <span className="font-bold underline"> track waypoints </span> button below.
+            </h2>
+          </div>
+
+          <div>
+            <h2 className="text-l text-gray-800 p-6">
+              What do you notice? Can you find situations where the car cannot hit one of the points?
+              (Hint: use the <span className="font-bold underline">"T" button</span> and see what happens when you put a point inside a turning cirlce!).
+            </h2>
+          </div>
+
+
+        </div>
+
+
         <div className="flex space-x-3">
           <button
             className="bg-blue-300 px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-blue-400 disabled:hover:ring-0 disabled:cursor-not-allowed"
@@ -61,7 +94,7 @@ export default function BangBang() {
               }))
             }
           >
-            Track the waypoints with PID!
+            Track waypoints!
           </button>
           <button
             className="bg-red-300 text-black px-3 py-2 m-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400 hover:ring hover:ring-red-400 disabled:cursor-not-allowed"
