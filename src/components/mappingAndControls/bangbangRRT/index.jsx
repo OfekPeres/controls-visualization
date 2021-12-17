@@ -45,14 +45,14 @@ const initialSketchState = {
   },
   stepSize: 40,
   circle: {
-    radius: 20,
+    radius: 40,
     minRadius: 1,
     maxRadius: 100,
     step: 1,
   },
   rectangle: {
-    height: 20,
-    width: 20,
+    height: 40,
+    width: 40,
     minLength: 1,
     maxLength: 100,
     step: 1,
