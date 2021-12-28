@@ -204,7 +204,7 @@ export default function RRTVisualization() {
 
         {/* User Input Code Starts Here */}
 
-        <div class="flex flex-col">
+        <div className="flex flex-col">
           <div>
             <h1 className="text-5xl font-bold text-gray-800 p-6">
               Rapidly Exploring Random Trees

@@ -10,7 +10,7 @@ export default function TutorialText() {
         <div>
             <h2 className="text-xl text-gray-800 p-6">
                 Use the <span className="font-bold underline">WASD</span> keys to drive the car around!
-                You are driving a <a href="http://planning.cs.uiuc.edu/node658.html" target="_blank" class="text-blue-600 ">
+                You are driving a <a href="http://planning.cs.uiuc.edu/node658.html" target="_blank" className="text-blue-600 ">
                 Dubin's Car 🚗</a>!
             </h2>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import Tabs from '../components/ui/tabs/';
 
 import Tutorial from '../components/tutorial';
@@ -6,9 +7,8 @@ import ControlAlgorithms from '../components/controlsAlgorithms';
 import MappingAlgorithms from '../components/mappingAlgorithms';
 import MappingandControlAlgorithms from '../components/mappingAndControls';
 import Docs from '../components/documentation';
-function Square({ text }) {
-  return <div className="w-72 h-72 relative bg-blue-300">{text}</div>;
-}
+
+
 const initialTabValues = {
   selectedIndex: 0,
   values: [
@@ -21,6 +21,20 @@ const initialTabValues = {
 };
 const IndexPage = () => {
   const [tabValues, setTabValues] = useState(initialTabValues);
+
+  async function wakeUpServer() {
+    const url = `${process.env.GATSBY_BACKEND_URL}`;
+    const payload = await axios.get(url);
+    if (process.env.NODE_ENV === "development")
+    {
+      console.log(payload)
+    }
+  }
+
+  // Only run this once on page load to start the process of waking up the backend server if it was asleep
+  useEffect(()=>{
+    wakeUpServer()
+  },[])
   return (
     <main className="h-full text-gray-200">
       <div className="bg-[#747474] text-6xl flex items-center text-center justify-center py-6 mb-6">

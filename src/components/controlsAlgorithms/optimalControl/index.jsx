@@ -223,7 +223,7 @@ function DubinsPath() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col text-gray-800 justify-center items-center">
         {isLoading ? (
           <div className="flex items-center justify-center space-x-3">
             <p>"Waiting for backend to deliver results!"</p>
